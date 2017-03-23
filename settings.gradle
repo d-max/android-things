@@ -1,0 +1,1 @@
+include ':controller', ':firmware', ':common:domain', ':common:data'
