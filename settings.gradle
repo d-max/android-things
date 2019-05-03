@@ -1,1 +1,4 @@
-include ':controller', ':firmware', ':common:domain', ':common:data'
+//include ':controller'
+include ':firmware'
+//include ':common:domain'
+//include ':common:data'
