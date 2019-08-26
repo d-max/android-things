@@ -1,0 +1,34 @@
+apply plugin: "io.gitlab.arturbosch.detekt"
+apply plugin: KtLintPlugin
+
+detekt {
+    toolVersion = "1.0.1"
+    input = files("${rootProject.projectDir}")
+    config = files("${rootProject.projectDir}/scripts/detekt.yml")
+    filters = '.*/resources/.*,.*/tmp/.*,.*/test/.*'
+    reports {
+        xml.destination = file("${rootProject.buildDir}/reports/detekt/")
+        html.destination = file("${rootProject.buildDir}/reports/detekt/")
+    }
+}
+
+ktlint {
+    version = "0.34.2"
+    verbose = true
+    android = true
+    group = true
+    report = file("${rootProject.buildDir}/reports/ktlint/")
+}
+
+task checkCodeQuality {
+    group = "CI"
+    description "Checks formatting and checkstyle"
+}
+
+allprojects { project ->
+    project.tasks.whenTaskAdded {
+        if (it.name == "detekt") checkCodeQuality.dependsOn it
+        if (it.name == "ktlint") checkCodeQuality.dependsOn it
+        if (it.name == "check") it.dependsOn checkCodeQuality
+    }
+}

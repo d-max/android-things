@@ -1,0 +1,138 @@
+
+ext {
+
+    // version definitions
+
+    daggerVersion = '2.24'
+    okHttpVersion = '4.1.0'
+    retrofitVersion = '2.6.1'
+    coroutinesVersion = '1.3.0'
+
+    // libraries definitions
+    
+    libs = [
+            kotlinStdLib        : "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion",
+
+            ktxCore             : "androidx.core:core-ktx:1.2.0-alpha03",
+            ktxCollections      : "androidx.collection:collection-ktx:1.1.0",
+            ktxViewModel        : "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0-alpha03",
+            ktxLiveData         : "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0-alpha03",
+
+            dataBinding         : "androidx.databinding:databinding-compiler:3.5.0",
+
+            gson                : "com.google.code.gson:gson:2.8.5",
+            okio                : "com.squareup.okio:okio:2.3.0",
+            okhttp              : "com.squareup.okhttp3:okhttp:$okHttpVersion",
+            okhttpLogger        : "com.squareup.okhttp3:logging-interceptor:$okHttpVersion",
+
+            dagger              : "com.google.dagger:dagger:$daggerVersion",
+            daggerComplier      : "com.google.dagger:dagger-compiler:$daggerVersion",
+
+            retrofit            : "com.squareup.retrofit2:retrofit:$retrofitVersion",
+            retrofit2Gson       : "com.squareup.retrofit2:converter-gson:$retrofitVersion",
+
+            design              : "com.google.android.material:material:1.1.0-alpha09",
+
+            support             : "androidx.legacy:legacy-support-v4:1.0.0",
+            appCompat           : "androidx.appcompat:appcompat:1.1.0-rc01",
+            recyclerView        : "androidx.recyclerview:recyclerview:1.1.0-beta03",
+            cardView            : "androidx.cardview:cardview:1.0.0",
+            constraintLayout    : "androidx.constraintlayout:constraintlayout:2.0.0-beta2",
+
+            archLifecycle       : "androidx.lifecycle:lifecycle-extensions:2.2.0-alpha03",
+
+            coroutines          : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion",
+            coroutinesAndroid   : "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion",
+
+    ]
+
+    tools = [
+            multidex            : "androidx.multidex:multidex:2.0.1",
+    ]
+
+    testDeps = [
+            junit               : "junit:junit:4.12",
+            mockito             : "org.mockito:mockito-core:3.0.0",
+    ]
+
+    // dependencies definitions
+
+    common = [
+        domainModuleDeps : [
+                [configuration: "api", dependency: libs.kotlinStdLib],
+        ],
+
+        messagingModuleDeps : [
+                [configuration: "api", dependency: libs.kotlinStdLib],
+        ],
+
+        gatewayModuleDeps : [
+                [configuration: "compile", dependency: projectModules.domain],
+                [configuration: "compile", dependency: libs.okio],
+                [configuration: "compile", dependency: libs.okhttp],
+                [configuration: "compile", dependency: libs.okhttpLogger],
+                [configuration: "compile", dependency: libs.gson],
+                [configuration: "compile", dependency: libs.retrofit],
+                [configuration: "compile", dependency: libs.retrofit2Gson],
+        ],
+    ]
+
+    server = [
+        appModuleDeps : [
+            [configuration: "api", dependency: libs.kotlinStdLib],
+        ]
+    ]
+
+    controller = [
+        appModuleDeps : [
+                [configuration: "api", dependency: libs.kotlinStdLib],
+        ],
+
+        coreModuleDeps : [
+                [configuration: "api", dependency: libs.kotlinStdLib],
+        ],
+    ]
+
+    firmware = [
+        appModuleDeps : [
+                [configuration: "api", dependency: libs.kotlinStdLib],
+        ],
+
+        coreModuleDeps : [
+                [configuration: "api", dependency: libs.kotlinStdLib],
+        ],
+
+        mathModuleDeps : [
+                [configuration: "api", dependency: libs.kotlinStdLib],
+        ],
+
+        hardwareModuleDeps : [
+                [configuration: "api", dependency: libs.kotlinStdLib],
+        ],
+
+        mechanicsModuleDeps : [
+                [configuration: "api", dependency: libs.kotlinStdLib],
+        ],
+    ]
+
+    // appModuleDeps = [
+    //         [configuration: "implementation", dependency: projectModules.domain],
+    //         [configuration: "implementation", dependency: projectModules.gateway],
+    //         [configuration: "implementation", dependency: libs.dagger],
+    //         [configuration: "implementation", dependency: libs.ktxCore],
+    //         [configuration: "implementation", dependency: libs.ktxCollections],
+    //         [configuration: "implementation", dependency: libs.ktxLiveData],
+    //         [configuration: "implementation", dependency: libs.ktxViewModel],
+    //         [configuration: "implementation", dependency: libs.support],
+    //         [configuration: "implementation", dependency: libs.appCompat],
+    //         [configuration: "implementation", dependency: libs.design],
+    //         [configuration: "implementation", dependency: libs.cardView],
+    //         [configuration: "implementation", dependency: libs.recyclerView],
+    //         [configuration: "implementation", dependency: libs.archLifecycle],
+    //         [configuration: "implementation", dependency: libs.constraintLayout],
+    //         [configuration: "implementation", dependency: libs.coroutinesAndroid],
+    //         [configuration: "implementation", dependency: tools.multidex],
+    //         [configuration: "kapt", dependency: libs.dataBinding],
+    //         [configuration: "kapt", dependency: libs.daggerComplier],
+    // ]
+}

@@ -1,0 +1,6 @@
+include ':app'
+include ':app'
+include ':core'
+include ':math'
+include ':hardware'
+include ':machanics'
