@@ -12,7 +12,7 @@ ext.projectModules = [
     firmwareApp         : project(":firmware:app"),
     firmwareCore        : project(":firmware:core"),
     math                : project(":firmware:math"),
-    mechanics           : project(":firmware:machanics"),
+    mechanics           : project(":firmware:mechanics"),
     hardware            : project(":firmware:hardware"),
 ]
 

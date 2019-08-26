@@ -11,7 +11,7 @@ include ':controller:core'
 include ':firmware:app'
 include ':firmware:core'
 include ':firmware:math'
-include ':firmware:machanics'
+include ':firmware:mechanics'
 include ':firmware:hardware'
 
 rootProject.name = "robot-arm"

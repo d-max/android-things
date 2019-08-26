@@ -59,59 +59,59 @@ ext {
 
     common = [
         domainModuleDeps : [
-                [configuration: "api", dependency: libs.kotlinStdLib],
+            [configuration: "api", dependency: libs.kotlinStdLib],
         ],
-
         messagingModuleDeps : [
-                [configuration: "api", dependency: libs.kotlinStdLib],
+            [configuration: "api", dependency: libs.kotlinStdLib],
         ],
-
         gatewayModuleDeps : [
-                [configuration: "compile", dependency: projectModules.domain],
-                [configuration: "compile", dependency: libs.okio],
-                [configuration: "compile", dependency: libs.okhttp],
-                [configuration: "compile", dependency: libs.okhttpLogger],
-                [configuration: "compile", dependency: libs.gson],
-                [configuration: "compile", dependency: libs.retrofit],
-                [configuration: "compile", dependency: libs.retrofit2Gson],
+            [configuration: "api", dependency: projectModules.domain],
+            [configuration: "compile", dependency: projectModules.messaging],
+            [configuration: "compile", dependency: libs.okio],
+            [configuration: "compile", dependency: libs.okhttp],
+            [configuration: "compile", dependency: libs.okhttpLogger],
+            [configuration: "compile", dependency: libs.gson],
+            [configuration: "compile", dependency: libs.retrofit],
+            [configuration: "compile", dependency: libs.retrofit2Gson],
         ],
     ]
 
     server = [
         appModuleDeps : [
-            [configuration: "api", dependency: libs.kotlinStdLib],
+            [configuration: "compile", dependency: libs.kotlinStdLib],
+            [configuration: "compile", dependency: projectModules.messaging],
         ]
     ]
 
     controller = [
         appModuleDeps : [
-                [configuration: "api", dependency: libs.kotlinStdLib],
+            [configuration: "implementation", dependency: projectModules.controllerCore],
         ],
-
         coreModuleDeps : [
-                [configuration: "api", dependency: libs.kotlinStdLib],
+            [configuration: "api", dependency: projectModules.domain],
+            [configuration: "api", dependency: projectModules.gateway],
         ],
     ]
 
     firmware = [
-        appModuleDeps : [
-                [configuration: "api", dependency: libs.kotlinStdLib],
-        ],
-
-        coreModuleDeps : [
-                [configuration: "api", dependency: libs.kotlinStdLib],
-        ],
-
-        mathModuleDeps : [
-                [configuration: "api", dependency: libs.kotlinStdLib],
-        ],
-
-        hardwareModuleDeps : [
-                [configuration: "api", dependency: libs.kotlinStdLib],
-        ],
-
         mechanicsModuleDeps : [
-                [configuration: "api", dependency: libs.kotlinStdLib],
+            [configuration: "api", dependency: libs.kotlinStdLib],
+        ],
+        hardwareModuleDeps : [
+            [configuration: "api", dependency: projectModules.mechanics],
+        ],
+        mathModuleDeps : [
+            [configuration: "api", dependency: projectModules.mechanics],
+        ],
+        coreModuleDeps : [
+            [configuration: "api", dependency: projectModules.mechanics],
+            [configuration: "api", dependency: projectModules.hardware],
+            [configuration: "api", dependency: projectModules.math],
+            [configuration: "api", dependency: projectModules.domain],
+            [configuration: "api", dependency: projectModules.gateway],
+        ],
+        appModuleDeps : [
+            [configuration: "implementation", dependency: projectModules.firmwareCore],
         ],
     ]
 
