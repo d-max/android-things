@@ -1,2 +1,22 @@
-rootProject.ext.configureKotlinModule(project)
+rootProject.ext.configureAndroidApplication(project)
+
+android {
+
+    defaultConfig {
+        applicationId 'dmax.iot.arm.firmware'
+        versionCode 1
+        versionName "0.1"
+        multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    testOptions {
+        reportDir = "$rootProject.buildDir/reports/tests"
+    }
+
+    dataBinding {
+        enabled = true
+    }
+}
+
 rootProject.ext.configureDependencies(project)
