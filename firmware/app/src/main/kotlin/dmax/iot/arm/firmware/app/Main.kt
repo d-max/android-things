@@ -1,21 +1,18 @@
 package dmax.iot.arm.firmware.app
 
 import android.app.Activity
-import android.os.Bundle
-import dmax.iot.arm.firmware.hardware.Hardware
 
 class Main : Activity() {
 
-    private val hardware = Hardware()
+    private val logic = GlueLogic()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        hardware.servo0.rotate(0)
+    override fun onStart() {
+        super.onStart()
+        logic.start()
     }
 
-    override fun onDestroy() {
-        hardware.shutDown()
-        super.onDestroy()
+    override fun onStop() {
+        logic.stop()
+        super.onStop()
     }
 }
