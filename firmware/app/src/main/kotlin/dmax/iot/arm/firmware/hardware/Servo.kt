@@ -6,13 +6,11 @@ data class Servo(
     private val channel: Int,
     val pca9685: PCA9685
 ) {
+    private val oneDegree = (maxAnglePwmValue - zeroAnglePwmValue) / 180
 
     fun rotate(angle: Int) {
-        val value = when (angle) {
-            0 -> zeroAnglePwmValue
-            90 -> maxAnglePwmValue
-            else -> return
-        }
-        pca9685.setPwmValue(channel, value)
+        if (angle !in 0..180) return
+        val dutyCycle = zeroAnglePwmValue + angle * oneDegree
+        pca9685.setPwmValue(channel, dutyCycle)
     }
 }
