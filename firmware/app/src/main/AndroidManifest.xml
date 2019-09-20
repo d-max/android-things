@@ -16,7 +16,7 @@
 
         <uses-library android:name="com.google.android.things"/>
 
-        <activity android:name=".Main">
+        <activity android:name=".app.Main">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

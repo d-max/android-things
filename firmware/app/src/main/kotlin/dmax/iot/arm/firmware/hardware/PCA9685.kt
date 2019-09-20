@@ -1,35 +1,43 @@
 package dmax.iot.arm.firmware.hardware
 
-import android.os.Handler
 import com.google.android.things.pio.I2cDevice
 import kotlin.experimental.and
 import kotlin.experimental.or
 
-private const val PCA9685_MODE1 = 0x0
-private const val PCA9685_PRESCALE = 0xFE
-
-private const val LED0_ON_L = 0x6
-private const val LED0_ON_H = 0x7
-private const val LED0_OFF_L = 0x8
-private const val LED0_OFF_H = 0x9
-
-private const val LED1_ON_L = 0x0a
-private const val LED1_ON_H = 0x0b
-private const val LED1_OFF_L = 0x0c
-private const val LED1_OFF_H = 0x0d
-
-private const val LED2_ON_L = 0x0e
-private const val LED2_ON_H = 0x0f
-private const val LED2_OFF_L = 0x10
-private const val LED2_OFF_H = 0x11
-
-private const val MAXIMUM = 450
-private const val MINIMUM = 200
-private const val AVERAGE = 350
-
-private const val PCA9685_25Mhz_TICKS = 25000000f
-
 class PCA9685(private val i2c: I2cDevice) {
+
+    companion object {
+
+        const val MAX_PWM_VALUE = 450
+        const val MIN_PWM_VALUE = 150
+
+        const val CHANNEL_0 = 0
+        const val CHANNEL_1 = 1
+        const val CHANNEL_2 = 2
+
+        private const val PCA9685_MODE1 = 0x0
+        private const val PCA9685_PRESCALE = 0xFE
+        private const val PCA9685_25Mhz_TICKS = 25000000f
+
+        private const val LED0_ON_L = 0x6
+        private const val LED0_ON_H = 0x7
+        private const val LED0_OFF_L = 0x8
+        private const val LED0_OFF_H = 0x9
+
+        private const val LED1_ON_L = 0x0a
+        private const val LED1_ON_H = 0x0b
+        private const val LED1_OFF_L = 0x0c
+        private const val LED1_OFF_H = 0x0d
+
+        private const val LED2_ON_L = 0x0e
+        private const val LED2_ON_H = 0x0f
+        private const val LED2_OFF_L = 0x10
+        private const val LED2_OFF_H = 0x11
+    }
+
+    fun close() {
+        i2c.close()
+    }
 
     fun reset() {
         val value: Byte = 0x08
@@ -53,61 +61,20 @@ class PCA9685(private val i2c: I2cDevice) {
         }
     }
 
-    fun min() = setPwmValue(MINIMUM)
+    fun setPwmValue(channel: Int, value: Int) {
+        val valueLow = value and 0xFF
+        val valueHigh = value shr 8
 
-    fun max() = setPwmValue(MAXIMUM)
+        val (registerLow, registerHigh) = when(channel) {
+            CHANNEL_0 -> LED0_OFF_L to LED0_OFF_H
+            CHANNEL_1 -> LED1_OFF_L to LED1_OFF_H
+            CHANNEL_2 -> LED2_OFF_L to LED2_OFF_H
+            else -> throw IllegalArgumentException("Channel doesn't exist")
+        }
 
-    fun middle() = setPwmValue(AVERAGE)
-
-    fun start() = Handler().schedule(MINIMUM)
-
-    private fun Handler.schedule(value: Int) {
-        postDelayed({
-            setPwmValue(value)
-            when (value) {
-                MAXIMUM -> schedule(MINIMUM)
-                MINIMUM -> schedule(MAXIMUM)
-            }
-        }, 3000)
-    }
-
-    fun setPwmValue(value: Int) {
         i2c.apply {
-
-//            println("on $on, off $off")
-//            val s = "${value.toString(2)} = ${h.toString(2)}.${l.toString(2)}"
-//            println(s)
-
-//            val low = 0b01111111.toByte()
-//            val high = 0b11101100.toByte()
-//            writeRegByte(LED0_ON_H, 0)
-//            writeRegByte(LED0_ON_L, 0)
-//            writeRegByte(LED0_OFF_H, 0)
-//            writeRegByte(LED0_OFF_L, low)
-
-
-//            val low = 150
-//            val high = 480
-
-//            val value = 350
-//            val value2 = 150
-//            val value3 = 150
-
-            val l = value and 0xFF
-            val h = value shr 8
-//            val l2 = value2 and 0xFF
-//            val h2 = value2 shr 8
-//            val l3 = value3 and 0xFF
-//            val h3 = value3 shr 8
-
-            writeRegByte(LED0_OFF_H, h.toByte())
-            writeRegByte(LED0_OFF_L, l.toByte())
-
-//            writeRegByte(LED1_OFF_H, h.toByte())
-//            writeRegByte(LED1_OFF_L, l.toByte())
-//
-//            writeRegByte(LED2_OFF_H, h3.toByte())
-//            writeRegByte(LED2_OFF_L, l3.toByte())
+            writeRegByte(registerLow, valueLow.toByte())
+            writeRegByte(registerHigh, valueHigh.toByte())
         }
     }
 }
