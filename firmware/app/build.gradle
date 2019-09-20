@@ -7,15 +7,10 @@ android {
         versionCode 1
         versionName "0.1"
         multiDexEnabled true
-        vectorDrawables.useSupportLibrary = true
     }
 
     testOptions {
         reportDir = "$rootProject.buildDir/reports/tests"
-    }
-
-    dataBinding {
-        enabled = true
     }
 }
 

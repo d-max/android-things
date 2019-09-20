@@ -96,26 +96,10 @@ ext {
     ]
 
     firmware = [
-        mechanicsModuleDeps : [
-            [configuration: "api", dependency: libs.kotlinStdLib],
-        ],
-        hardwareModuleDeps : [
-            [configuration: "api", dependency: projectModules.mechanics],
-        ],
-        mathModuleDeps : [
-            [configuration: "api", dependency: projectModules.mechanics],
-        ],
-        coreModuleDeps : [
-            [configuration: "api", dependency: projectModules.mechanics],
-            [configuration: "api", dependency: projectModules.hardware],
-            [configuration: "api", dependency: projectModules.math],
-            [configuration: "api", dependency: projectModules.domain],
-            [configuration: "api", dependency: projectModules.gateway],
-        ],
         appModuleDeps : [
-            [configuration: "implementation", dependency: projectModules.firmwareCore],
+            [configuration: "api", dependency: libs.kotlinStdLib],
             [configuration: "compileOnly", dependency: libs.androidThings],
-        ],
+        ]
     ]
 
     // appModuleDeps = [

@@ -11,26 +11,25 @@
         android:allowBackup="false"
         android:icon="@android:drawable/sym_def_app_icon"
         android:label="Firmware"
+        tools:ignore="GoogleAppIndexingWarning"
         >
 
         <uses-library android:name="com.google.android.things"/>
 
-        <!--<activity android:name="com.dmax.iot.demo.activities.LedBlinkingActivity">-->
-        <!--<activity android:name="com.dmax.iot.demo.activities.PwmServoActivity">-->
-<!--        <activity android:name="com.dmax.iot.demo.activities.I2cActivity">-->
+        <activity android:name=".Main">
 
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
-<!--            &lt;!&ndash; Launch activity automatically on boot &ndash;&gt;-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN"/>-->
-<!--                <category android:name="android.intent.category.IOT_LAUNCHER"/>-->
-<!--                <category android:name="android.intent.category.DEFAULT"/>-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
+            <!-- Launch activity automatically on boot -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.IOT_LAUNCHER"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
