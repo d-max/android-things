@@ -35,7 +35,7 @@ class Hardware {
 
     val servo1 by lazy {
         Servo(
-            zeroAnglePwmValue = PCA9685.MIN_PWM_VALUE,
+            zeroAnglePwmValue = PCA9685.MIN_PWM_VALUE + 50,
             maxAnglePwmValue = PCA9685.MAX_PWM_VALUE,
             channel = CHANNEL_1,
             pca9685 = pca9685

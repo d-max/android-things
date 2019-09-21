@@ -56,25 +56,38 @@ class PCA9685(private val i2c: I2cDevice) {
             writeRegByte(PCA9685_MODE1, newMode) // go to sleep
             writeRegByte(PCA9685_PRESCALE, prescale.toByte()) // set prescale
             writeRegByte(PCA9685_MODE1, oldMode)
-//            Thread.sleep(5)
-//            writeRegByte(PCA9685_MODE1, oldMode or 0xa0.toByte()) // autoincrement
+            Thread.sleep(5)
+            writeRegByte(PCA9685_MODE1, oldMode or 0xa0.toByte()) // autoincrement
         }
     }
 
     fun setPwmValue(channel: Int, value: Int) {
+//        Thread.sleep(50)
+        i2c.writeWord(channel, value)
+    }
+
+    private fun I2cDevice.writeWord(channel: Int, value: Int) {
+        val register = when(channel) {
+            CHANNEL_0 -> LED0_OFF_L
+            CHANNEL_1 -> LED1_OFF_L
+            CHANNEL_2 -> LED2_OFF_L
+            else -> throw IllegalArgumentException("Channel doesn't exist")
+        }
+        writeRegWord(register, value.toShort())
+    }
+
+    private fun I2cDevice.writeBytes(channel: Int, value: Int) {
         val valueLow = value and 0xFF
         val valueHigh = value shr 8
-
-        val (registerLow, registerHigh) = when(channel) {
+        val (registerOffLow, registerOffHigh) = when(channel) {
             CHANNEL_0 -> LED0_OFF_L to LED0_OFF_H
             CHANNEL_1 -> LED1_OFF_L to LED1_OFF_H
             CHANNEL_2 -> LED2_OFF_L to LED2_OFF_H
             else -> throw IllegalArgumentException("Channel doesn't exist")
         }
-
-        i2c.apply {
-            writeRegByte(registerLow, valueLow.toByte())
-            writeRegByte(registerHigh, valueHigh.toByte())
-        }
+        writeRegByte(registerOffLow, valueLow.toByte())
+        writeRegByte(registerOffHigh, valueHigh.toByte())
     }
+
+
 }
