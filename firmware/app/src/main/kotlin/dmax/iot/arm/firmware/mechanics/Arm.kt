@@ -1,10 +1,10 @@
 package dmax.iot.arm.firmware.mechanics
 
 data class Arm(
-    val base: Joint,
     val femur: Bone,
-    val elbow: Joint,
     val tibia: Bone,
-    val wrist: Joint,
-    val fibula: Bone
+    val fibula: Bone,
+    var base: Joint.Base,
+    var elbow: Joint.Elbow,
+    var wrist: Joint.Wrist
 )

@@ -9,7 +9,7 @@ class PCA9685(private val i2c: I2cDevice) {
     companion object {
 
         const val MAX_PWM_VALUE = 450
-        const val MIN_PWM_VALUE = 150
+        const val MIN_PWM_VALUE = 200
 
         const val CHANNEL_0 = 0
         const val CHANNEL_1 = 1
@@ -62,7 +62,7 @@ class PCA9685(private val i2c: I2cDevice) {
     }
 
     fun setPwmValue(channel: Int, value: Int) {
-//        Thread.sleep(50)
+        Thread.sleep(50) // todo
         i2c.writeWord(channel, value)
     }
 

@@ -3,12 +3,15 @@ package dmax.iot.arm.firmware.operations
 import dmax.iot.arm.firmware.app.Context
 import dmax.iot.arm.firmware.math.Condition
 import dmax.iot.arm.firmware.math.calculateAngles
-import dmax.iot.arm.firmware.mechanics.Arm
 import dmax.iot.arm.firmware.mechanics.Joint
+import dmax.iot.arm.firmware.motion.Motion
 
-class Move(private val context: Context) {
+class Move(
+    private val context: Context,
+    private val motion: Motion
+) {
 
-    operator fun invoke(x: Int, y: Int): Arm {
+    operator fun invoke(x: Int, y: Int) {
         val arm = context.arm
         val (alpha, beta) = calculateAngles(
             Condition(
@@ -18,9 +21,7 @@ class Move(private val context: Context) {
                 b = arm.tibia.length
             )
         )
-        return arm.copy(
-            base = Joint(alpha),
-            elbow = Joint(beta)
-        )
+        motion.rotate(Joint.Base(alpha))
+        motion.rotate(Joint.Elbow(beta))
     }
 }
