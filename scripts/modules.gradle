@@ -1,26 +1,13 @@
 ext.projectModules = [
-    
     server              : project(":server"),
-
-    domain              : project(":common:domain"),
-    gateway             : project(":common:gateway"),
-    messaging           : project(":common:messaging"),
-
-    controllerApp       : project(":controller:app"),
-    controllerCore      : project(":controller:core"),
-
-    firmwareApp         : project(":firmware:app"),
-    firmwareCore        : project(":firmware:core"),
-    math                : project(":firmware:math"),
-    mechanics           : project(":firmware:mechanics"),
-    hardware            : project(":firmware:hardware"),
+    controller          : project(":controller"),
+    firmware            : project(":firmware"),
 ]
 
 ext.configureDependencies = { project ->
     project.dependencies {
-        def prefix = project.parent.name
         def module = project.name
-        rootProject."${prefix}"["${module}ModuleDeps"].each {
+        rootProject."${module}ModuleDeps".each {
             add(it.configuration, it.dependency, it.options)
         }
     }

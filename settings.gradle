@@ -1,17 +1,5 @@
-include ':server:app'
-
-include ':common:domain'
-include ':common:domain'
-include ':common:gateway'
-include ':common:messaging'
-
-include ':controller:app'
-include ':controller:core'
-
-include ':firmware:app'
-include ':firmware:core'
-include ':firmware:math'
-include ':firmware:mechanics'
-include ':firmware:hardware'
+include ':server'
+include ':controller'
+include ':firmware'
 
 rootProject.name = "robot-arm"

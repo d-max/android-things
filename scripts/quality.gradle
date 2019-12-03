@@ -2,10 +2,9 @@ apply plugin: "io.gitlab.arturbosch.detekt"
 apply plugin: KtLintPlugin
 
 detekt {
-    toolVersion = "1.0.1"
+    toolVersion = "1.2.1"
     input = files("${rootProject.projectDir}")
     config = files("${rootProject.projectDir}/scripts/detekt.yml")
-    filters = '.*/resources/.*,.*/tmp/.*,.*/test/.*'
     reports {
         xml.destination = file("${rootProject.buildDir}/reports/detekt/")
         html.destination = file("${rootProject.buildDir}/reports/detekt/")
@@ -13,7 +12,7 @@ detekt {
 }
 
 ktlint {
-    version = "0.34.2"
+    version = "0.35"
     verbose = true
     android = true
     group = true
