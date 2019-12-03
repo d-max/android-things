@@ -12,11 +12,11 @@ class Hardware {
     }
 
     private val peripheral by lazy {
-        PeripheralManager.getInstance() ?: throw IllegalStateException("Can't obtain peripheral manager")
+        PeripheralManager.getInstance() ?: error("Can't obtain peripheral manager")
     }
 
     private val pca9685: PCA9685 by lazy {
-        val i2c = peripheral.i2cBusList.firstOrNull() ?: throw IllegalStateException("No I2C devices found")
+        val i2c = peripheral.i2cBusList.firstOrNull() ?: error("No I2C devices found")
         val device = peripheral.openI2cDevice(i2c, PCA9685_ADDRESS)
         PCA9685(device).apply {
             reset()

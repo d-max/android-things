@@ -71,7 +71,7 @@ class PCA9685(private val i2c: I2cDevice) {
             CHANNEL_0 -> LED0_OFF_L
             CHANNEL_1 -> LED1_OFF_L
             CHANNEL_2 -> LED2_OFF_L
-            else -> throw IllegalArgumentException("Channel doesn't exist")
+            else -> error("Channel doesn't exist")
         }
         writeRegWord(register, value.toShort())
     }
@@ -83,7 +83,7 @@ class PCA9685(private val i2c: I2cDevice) {
             CHANNEL_0 -> LED0_OFF_L to LED0_OFF_H
             CHANNEL_1 -> LED1_OFF_L to LED1_OFF_H
             CHANNEL_2 -> LED2_OFF_L to LED2_OFF_H
-            else -> throw IllegalArgumentException("Channel doesn't exist")
+            else -> error("Channel doesn't exist")
         }
         writeRegByte(registerOffLow, valueLow.toByte())
         writeRegByte(registerOffHigh, valueHigh.toByte())

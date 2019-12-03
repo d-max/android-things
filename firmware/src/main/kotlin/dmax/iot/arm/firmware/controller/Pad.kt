@@ -1,6 +1,5 @@
 package dmax.iot.arm.firmware.controller
 
-import android.util.Log
 import android.view.InputDevice
 import android.view.InputEvent
 import android.view.KeyEvent
@@ -37,8 +36,6 @@ class Pad {
     }
 
     private fun handleKeyEvent(event: KeyEvent, onKey: (Int) -> Unit) {
-        Log.d("###", "keyEvent action: " + event.action)
-        Log.d("###", "keyEvent code: " + event.keyCode)
         if (event.action != KeyEvent.ACTION_DOWN) return // todo
 
         val key = when(event.keyCode) {
@@ -57,19 +54,16 @@ class Pad {
     }
 
     private fun handleMotionEvent(event: MotionEvent, onMotion: (Int) -> Unit) {
-        Log.d("###", "motionEvent action: " + event.action)
         if (event.action != MotionEvent.ACTION_MOVE) return // todo
 
         val xaxis: Float = event.getAxisValue(MotionEvent.AXIS_X)
-//        val yaxis: Float = event.getAxisValue(MotionEvent.AXIS_RTRIGGER)
-
-        Log.d("###", "motionEvent action: $xaxis")
+        val yaxis: Float = event.getAxisValue(MotionEvent.AXIS_RTRIGGER)
 
         val direction = when {
             xaxis.compareTo(-1.0f) == 0 -> LEFT
             xaxis.compareTo(1.0f) == 0 -> RIGHT
-//            yaxis.compareTo(-1.0f) == 0 -> UP
-//            yaxis.compareTo(1.0f) == 0 -> DOWN
+            yaxis.compareTo(-1.0f) == 0 -> UP
+            yaxis.compareTo(1.0f) == 0 -> DOWN
             else -> return
         }
         onMotion(direction)

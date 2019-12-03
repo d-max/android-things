@@ -1,6 +1,5 @@
 package dmax.iot.arm.firmware.app
 
-import android.util.Log
 import android.view.InputEvent
 import dmax.iot.arm.firmware.controller.Pad
 import dmax.iot.arm.firmware.controller.Pad.Companion.BUTTON_1
@@ -29,40 +28,44 @@ class GlueLogic {
         hardware.shutDown()
     }
 
-    private var current: Rotate? = null
+    private var rotation: Rotate? = null
 
     fun dispatchEvent(event: InputEvent) {
         if (Pad.isDpadDevice(event)) {
             pad.handleEvent(
                 event = event,
-                onKey = {
-                    current = when (it) {
-                        BUTTON_1 -> RotateBase(context, motion)
-                        BUTTON_2 -> RotateElbow(context, motion)
-                        BUTTON_3 -> {
-                            RotateWrist(context, motion).apply {
-                                invoke(true)
-                                Thread.sleep(100)
-                                invoke(false)
-                            }
-                            null
-                        }
-                        else -> null
-                    }
-                },
-                onMotion = {
-                    when (it) {
-                        LEFT -> {
-                            Log.d("@@@", "left")
-                            current?.invoke(true)
-                        }
-                        RIGHT -> {
-                            Log.d("@@@", "right")
-                            current?.invoke(false)
-                        }
-                    }
-                }
+                onKey = ::onKey,
+                onMotion = ::onMotion
             )
         }
     }
+
+    private fun onMotion(event: Int) {
+        when (event) {
+            LEFT -> rotation?.invoke(clockWise = true)
+            RIGHT -> rotation?.invoke(clockWise = false)
+        }
+    }
+
+    private fun onKey(key: Int) {
+        rotation = when (key) {
+            BUTTON_1 -> {
+                RotateBase(context, motion)
+            }
+            BUTTON_2 -> {
+                RotateElbow(context, motion)
+            }
+            BUTTON_3 -> {
+                RotateWrist(context, motion).apply {
+                    invoke(true)
+                    Thread.sleep(100)
+                    invoke(false)
+                }
+                null
+            }
+            else -> null
+        }
+    }
+
+
 }
