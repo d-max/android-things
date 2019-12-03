@@ -18,10 +18,7 @@ class Hardware {
     private val pca9685: PCA9685 by lazy {
         val i2c = peripheral.i2cBusList.firstOrNull() ?: error("No I2C devices found")
         val device = peripheral.openI2cDevice(i2c, PCA9685_ADDRESS)
-        PCA9685(device).apply {
-            reset()
-            setPwmFrequency(50)
-        }
+        PCA9685(device)
     }
 
     val servo0 by lazy {
@@ -53,5 +50,12 @@ class Hardware {
 
     fun shutDown() {
         pca9685.close()
+    }
+
+    fun reset() {
+        with(pca9685) {
+            reset()
+            setPwmFrequency(50)
+        }
     }
 }
