@@ -7,9 +7,9 @@ class Motion(private val hardware: Hardware) {
 
     fun rotate(joint: Joint) = with(hardware) {
         when (joint) {
-            is Joint.Base -> servo0
+            is Joint.Base -> servo2
             is Joint.Elbow -> servo1
-            is Joint.Wrist -> servo2
+            is Joint.Wrist -> servo0
         }.rotate(joint.angle)
     }
 }
