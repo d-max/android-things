@@ -1,6 +1,7 @@
 package dmax.iot.arm.firmware.hardware
 
 import com.google.android.things.pio.PeripheralManager
+import com.google.android.things.pio.Pwm
 import dmax.iot.arm.firmware.hardware.PCA9685.Companion.CHANNEL_0
 import dmax.iot.arm.firmware.hardware.PCA9685.Companion.CHANNEL_1
 import dmax.iot.arm.firmware.hardware.PCA9685.Companion.CHANNEL_2
@@ -21,8 +22,16 @@ class Hardware {
         PCA9685(device)
     }
 
-    val servo0 by lazy {
-        Servo(
+    private val pwm: Pwm by lazy {
+        val pwm = peripheral.pwmList.firstOrNull() ?: error("PWM not found")
+        peripheral.openPwm(pwm).apply {
+            setEnabled(true)
+            setPwmFrequencyHz(50.0)
+        }
+    }
+
+    val servoI2c0: Servo by lazy {
+        I2cServo(
             zeroAnglePwmValue = PCA9685.MIN_PWM_VALUE,
             maxAnglePwmValue = PCA9685.MAX_PWM_VALUE,
             channel = CHANNEL_0,
@@ -30,8 +39,8 @@ class Hardware {
         )
     }
 
-    val servo1 by lazy {
-        Servo(
+    val servoI2c1: Servo by lazy {
+        I2cServo(
             zeroAnglePwmValue = PCA9685.MIN_PWM_VALUE + 50,
             maxAnglePwmValue = PCA9685.MAX_PWM_VALUE,
             channel = CHANNEL_1,
@@ -39,12 +48,20 @@ class Hardware {
         )
     }
 
-    val servo2 by lazy {
-        Servo(
+    val servoI2c2: Servo by lazy {
+        I2cServo(
             zeroAnglePwmValue = PCA9685.MIN_PWM_VALUE,
             maxAnglePwmValue = PCA9685.MAX_PWM_VALUE,
             channel = CHANNEL_2,
             pca9685 = pca9685
+        )
+    }
+
+    val servoPwm0: Servo by lazy {
+        PwmServo(
+            zeroAnglePwmValue = PCA9685.MIN_PWM_VALUE,
+            maxAnglePwmValue = PCA9685.MAX_PWM_VALUE,
+            pwm = pwm
         )
     }
 

@@ -36,7 +36,7 @@ class PCA9685(private val i2c: I2cDevice) {
     }
 
     fun close() {
-        i2c.close()
+//        i2c.close()
     }
 
     fun reset() {
@@ -73,6 +73,7 @@ class PCA9685(private val i2c: I2cDevice) {
             CHANNEL_2 -> LED2_OFF_L
             else -> error("Channel doesn't exist")
         }
+        println("output $register ${value.toShort()}")
         writeRegWord(register, value.toShort())
     }
 
