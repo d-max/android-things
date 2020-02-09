@@ -5,15 +5,15 @@ import dmax.iot.arm.firmware.dispatcher.Dispatcher
 import dmax.iot.arm.firmware.mechanics.Joint
 import dmax.iot.arm.firmware.mechanics.copy
 
-fun Context.rotateBase(clockWise: Boolean): Operation = Rotate(arm.base, clockWise)
-fun Context.rotateElbow(clockWise: Boolean): Operation = Rotate(arm.elbow, clockWise)
-fun Context.rotateWrist(clockWise: Boolean): Operation = Rotate(arm.wrist, clockWise, 50, 90)
+fun Context.rotateExtremaBase(clockWise: Boolean): Operation = RotateExtrema(arm.base, clockWise)
+fun Context.rotateExtremaElbow(clockWise: Boolean): Operation = RotateExtrema(arm.elbow, clockWise)
+fun Context.rotateExtremaWrist(clockWise: Boolean): Operation = RotateExtrema(arm.wrist, clockWise, ANGLE_QUARTER, ANGLE_MIDDLE)
 
-private class Rotate(
+private class RotateExtrema(
     private val joint: Joint,
     private val clockWise: Boolean,
-    private val min: Int = 0,
-    private val max: Int = 180
+    private val min: Int = ANGLE_MIN,
+    private val max: Int = ANGLE_MAX
 ): Operation {
 
     override operator fun invoke(dispatcher: Dispatcher) {

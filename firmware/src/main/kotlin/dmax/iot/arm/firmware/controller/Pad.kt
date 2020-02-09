@@ -4,24 +4,71 @@ import android.view.InputDevice
 import android.view.InputEvent
 import android.view.KeyEvent
 import android.view.MotionEvent
+import dmax.iot.arm.firmware.app.Context
+import dmax.iot.arm.firmware.dispatcher.Dispatcher
+import dmax.iot.arm.firmware.operations.Operation
+import dmax.iot.arm.firmware.operations.rotateStepBase
+import dmax.iot.arm.firmware.operations.rotateStepElbow
+import dmax.iot.arm.firmware.operations.rotateStepWrist
 
-class Pad {
+private typealias Rotations = (Boolean) -> Operation
+
+class PadController(
+    private val context: Context,
+    private val dispatcher: Dispatcher
+) {
+
+    private val pad = Pad()
+    private var factory: (Rotations)? = null
+
+
+    fun dispatchEvent(event: InputEvent) {
+        if (Pad.isDpadDevice(event)) {
+            pad.handleEvent(
+                event = event,
+                onKey = ::onKey,
+                onMotion = ::onMotion
+            )
+        }
+    }
+
+    private fun onMotion(event: Int) {
+        val clockWise = when (event) {
+            Pad.LEFT -> true
+            Pad.RIGHT -> false
+            else -> return
+        }
+        val operation = factory?.invoke(clockWise)
+        operation?.invoke(dispatcher)
+    }
+
+    private fun onKey(key: Int) {
+        factory = when (key) {
+            Pad.BUTTON_1 -> { clockWise: Boolean -> context.rotateStepBase(clockWise) }
+            Pad.BUTTON_2 -> { clockWise: Boolean -> context.rotateStepElbow(clockWise) }
+            Pad.BUTTON_3 -> { clockWise: Boolean -> context.rotateStepWrist(clockWise) }
+            else -> null
+        }
+    }
+}
+
+private class Pad {
 
     companion object {
-        internal const val BUTTON_1 = 1
-        internal const val BUTTON_2 = 2
-        internal const val BUTTON_3 = 3
-        internal const val BUTTON_4 = 4
-        internal const val BUTTON_L1 = 5
-        internal const val BUTTON_L2 = 6
-        internal const val BUTTON_R1 = 7
-        internal const val BUTTON_R2 = 8
-        internal const val BUTTON_MODE = 9
+        const val BUTTON_1 = 1
+        const val BUTTON_2 = 2
+        const val BUTTON_3 = 3
+        const val BUTTON_4 = 4
+        const val BUTTON_L1 = 5
+        const val BUTTON_L2 = 6
+        const val BUTTON_R1 = 7
+        const val BUTTON_R2 = 8
+        const val BUTTON_MODE = 9
 
-        internal const val UP = 10
-        internal const val LEFT = 11
-        internal const val RIGHT = 12
-        internal const val DOWN = 13
+        const val UP = 10
+        const val LEFT = 11
+        const val RIGHT = 12
+        const val DOWN = 13
 
         fun isDpadDevice(event: InputEvent): Boolean =
             // Check that input comes from a device with directional pads.
@@ -50,6 +97,7 @@ class Pad {
             KeyEvent.KEYCODE_BUTTON_9 -> BUTTON_MODE
             else -> return
         }
+        println("key $key")
         onKey(key)
     }
 
@@ -66,6 +114,8 @@ class Pad {
             yaxis.compareTo(1.0f) == 0 -> DOWN
             else -> return
         }
+        println("direction $direction")
         onMotion(direction)
     }
 }
+
