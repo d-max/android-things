@@ -1,12 +1,20 @@
 package dmax.iot.arm.firmware.app
 
 import android.app.Activity
+import android.os.Bundle
 import android.view.KeyEvent
 import android.view.MotionEvent
+import dmax.iot.arm.firmware.R
 
 class Main : Activity() {
 
-    private val logic = GlueLogic()
+    private val logic by lazy { GlueLogic() }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.controller)
+
+    }
 
     override fun onStart() {
         super.onStart()

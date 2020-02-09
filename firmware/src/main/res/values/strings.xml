@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="button_label_servo1">Base</string>
+    <string name="button_label_servo2">Elbow</string>
+    <string name="button_label_servo3">Wrist</string>
+    <string name="button_label_min">Min</string>
+    <string name="button_label_max">Max</string>
+</resources>

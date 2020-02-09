@@ -13,7 +13,7 @@ class Dispatcher(
     private val motion: Motion
 ) {
 
-    private val scope = MainScope()
+    private var scope = MainScope()
     private val channel = Channel<Joint>()
 
     fun terminate() {
@@ -21,6 +21,7 @@ class Dispatcher(
     }
 
     fun dispatch() {
+        scope = MainScope()
         scope.launch {
             for (joint in channel) {
                 motion.rotate(joint)

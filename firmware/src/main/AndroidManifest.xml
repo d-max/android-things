@@ -19,7 +19,10 @@
 
         <uses-library android:name="com.google.android.things"/>
 
-        <activity android:name=".app.Main">
+        <activity
+            android:name=".app.Main"
+            android:theme="@style/AppTheme"
+            >
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
