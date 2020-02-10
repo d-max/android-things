@@ -18,6 +18,7 @@ class Main : Activity() {
 
     override fun onStart() {
         super.onStart()
+        allocator.hardware.reset()
         allocator.dispatcher.dispatch()
     }
 

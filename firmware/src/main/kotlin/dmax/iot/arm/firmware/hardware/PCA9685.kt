@@ -36,7 +36,7 @@ class PCA9685(private val i2c: I2cDevice) {
     }
 
     fun close() {
-//        i2c.close()
+        i2c.close()
     }
 
     fun reset() {

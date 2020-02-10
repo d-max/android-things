@@ -62,9 +62,6 @@ class Hardware {
     }
 
     fun reset() {
-        with(pca9685) {
-            reset()
-            setPwmFrequency(50)
-        }
+        pca9685.setPwmFrequency(50)
     }
 }
