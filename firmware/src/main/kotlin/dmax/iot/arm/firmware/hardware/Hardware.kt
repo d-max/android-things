@@ -32,35 +32,27 @@ class Hardware {
 
     val servoI2c0: Servo by lazy {
         I2cServo(
-            zeroAnglePwmValue = PCA9685.MIN_PWM_VALUE,
-            maxAnglePwmValue = PCA9685.MAX_PWM_VALUE,
-            channel = CHANNEL_0,
-            pca9685 = pca9685
+            pca9685 = pca9685,
+            channel = CHANNEL_0
         )
     }
 
     val servoI2c1: Servo by lazy {
         I2cServo(
-            zeroAnglePwmValue = PCA9685.MIN_PWM_VALUE + 50,
-            maxAnglePwmValue = PCA9685.MAX_PWM_VALUE,
-            channel = CHANNEL_1,
-            pca9685 = pca9685
+            pca9685 = pca9685,
+            channel = CHANNEL_1
         )
     }
 
     val servoI2c2: Servo by lazy {
         I2cServo(
-            zeroAnglePwmValue = PCA9685.MIN_PWM_VALUE,
-            maxAnglePwmValue = PCA9685.MAX_PWM_VALUE,
-            channel = CHANNEL_2,
-            pca9685 = pca9685
+            pca9685 = pca9685,
+            channel = CHANNEL_2
         )
     }
 
     val servoPwm0: Servo by lazy {
         PwmServo(
-            zeroAnglePwmValue = PCA9685.MIN_PWM_VALUE,
-            maxAnglePwmValue = PCA9685.MAX_PWM_VALUE,
             pwm = pwm
         )
     }

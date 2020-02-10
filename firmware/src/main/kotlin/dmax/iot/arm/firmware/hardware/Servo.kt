@@ -18,8 +18,8 @@ abstract class Servo(
 }
 
 class I2cServo(
-    zeroAnglePwmValue: Int,
-    maxAnglePwmValue: Int,
+    zeroAnglePwmValue: Int = PCA9685.MIN_PWM_VALUE,
+    maxAnglePwmValue: Int = PCA9685.MAX_PWM_VALUE,
     private val channel: Int,
     private val pca9685: PCA9685
 ) : Servo(zeroAnglePwmValue, maxAnglePwmValue) {
@@ -28,10 +28,18 @@ class I2cServo(
 }
 
 class PwmServo(
-    zeroAnglePwmValue: Int,
-    maxAnglePwmValue: Int,
     private val pwm: Pwm
-) : Servo(zeroAnglePwmValue, maxAnglePwmValue) {
+) : Servo(PWD_MIN, PWM_MAX) {
 
-    override fun setPwmValue(value: Int) = pwm.setPwmDutyCycle(value.toDouble())
+    companion object {
+        // micro seconds
+        private const val PWD_MIN = 750
+        private const val PWM_MAX = 2400
+        private const val PULSE_PERIOD_MS = 20000.0 // 1000000/50Hz
+    }
+
+    override fun setPwmValue(value: Int) {
+        val dutyCycleInPercents = value * 100 / PULSE_PERIOD_MS
+        pwm.setPwmDutyCycle(dutyCycleInPercents)
+    }
 }
